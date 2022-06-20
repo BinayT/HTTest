@@ -20,24 +20,17 @@ export default class extends React.Component {
 
         // Here we're gonna fetch it each time since it has to be a random quote, and the API responds with only one in this case.
         // First we delete random quote from the context is any exists. Then replace it with another one
-        delete session.randomQuotesURL
-        const randomQuotesURL = 'https://api.quotable.io/random'
-        const res1 = await fetch(randomQuotesURL, {
-            url: randomQuotesURL,
-            mode: 'no-cors',
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
+        const randomChuckNorrisJoke = 'https://api.chucknorris.io/jokes/random'
+        const res1 = await fetch(randomChuckNorrisJoke, {
+            url: randomChuckNorrisJoke,
             method: 'GET',
             params: {}
         })
-        session.randomQuotes = await res1.json()
+        session.randomJokes = await res1.json()
 
     }
 
     render() {
-        console.log(this.context.session)
-        console.log(this.context)
         if (this.context.lastRoutePath === null) {
             this.context.session.is_first_interaction = true
         } else {
@@ -48,9 +41,8 @@ export default class extends React.Component {
                 {
                     this.context.session.is_first_interaction ?
                         <Carousel>{this.context.session.GotHouses.map(e => <Button key={e.url}>{e.name}</Button>)}</Carousel> :
-                        <Text typing='2'>{this.context.session.randomQuotes.content}</Text>
+                        <Text typing='2'>{this.context.session.randomJokes.value}</Text>
                 }
-
             </>
         )
     }
